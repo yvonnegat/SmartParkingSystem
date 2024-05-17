@@ -4,9 +4,14 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  background-color: rgba(53, 128, 240, 0.459);
+}
+.appbar {
+  background-color: transparent !important; /* Ensure it takes precedence */
 }
 .header{
   color: aliceblue;
+
 }
 .background-video {
   position: absolute;
@@ -21,25 +26,13 @@
 .content {
   position: relative;
   z-index: 1;
+  
 }
-
-
-
-.services-container {
-  margin-top: 4rem;
+.headings{
+  color: rgb(66, 96, 231);
 }
-
-.service-image {
-  width: 100%;
-  height: auto;
-}
-
-.service-description {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  color: black;
+.subheading{
+  color: rgb(19, 20, 29);
 }
 .app {
   display: flex;
@@ -59,12 +52,19 @@
 }
 
 .parking-spot-list {
-  width: 300px;
-  padding: 10px;
+  overflow:scroll;
+   height:350px;
+  width: 400px;
+  padding: 2px;
+  
 }
 
 /* Styling for MapContainer (adjust as needed) */
 .map-container {
-  width: calc(100% - 300px); /* Adjust the width based on the parking spot list width */
-  height: 100%;
+  width: calc(100% - 400px); /* Adjust the width based on the parking spot list width */
+  height: 300px ;
+}
+.sort-buttons{
+  display: flex;
+  justify-content:space-evenly;
 }
