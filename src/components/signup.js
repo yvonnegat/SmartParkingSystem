@@ -50,7 +50,7 @@ export default function SignUp({RouterLink}) {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(Video by Marian Croitoru from Pexels: https://www.pexels.com/video/overview-of-a-building-and-its-parking-area-5607784/',
+            backgroundImage: 'url(https://images.prismic.io//intuzwebsite/aa72ccad-6c03-47d4-add6-8c5344e86761_Banner.png?w=1200&q=75&auto=format,compress&fm=png8)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

@@ -1,7 +1,20 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Container, Box, TextField, Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
+import Lottie from 'react-lottie';
+import nearparkinganimationData from '../nearbyparking.json';
+import paymentanimationData from '../payment.json';
+import reservationanimationData from '../reservation.json';
 import "../App.css";
+
+const defaultOptions = (animationData) => ({
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+});
 
 const LandingPage = () => {
   return (
@@ -18,18 +31,21 @@ const LandingPage = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Park n Go
             </Typography>
-            <Button color="inherit" component={Link} to="/">Sign In</Button>
+            <Button color="inherit" component={Link} to="/signin">Sign In</Button>
             <Button color="inherit" component={Link} to="/signup">Sign Up</Button>
           </Toolbar>
         </AppBar>
         <Container>
-          <Box className = 'header'
+          <Box className='header'
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
               height: '80vh',
+              textAlign: 'center',
+              color: 'white',
+              padding: '0 20px',
             }}
           >
             <Typography variant="h3" gutterBottom>
@@ -43,70 +59,129 @@ const LandingPage = () => {
               label="Search for parking"
               variant="outlined"
               fullWidth
-              sx={{ maxWidth: 600, marginBottom: 2 }}
+              sx={{ maxWidth: 600, backgroundColor: 'white', borderRadius: 1, marginBottom: 2 }}
             />
             <Button variant="contained" color="primary">
               Find Parking
             </Button>
           </Box>
-          {/* Two-column layout */}
-          <Grid container spacing={3} sx={{ marginTop: 4 }}>
-            {/* Column with picture */}
-            <Grid item xs={12} md={6}>
-              <img src="https://img.freepik.com/premium-vector/car-parking-illustration_7095-314.jpg" alt="Placeholder" style={{ width: '100%', height: 'auto' }} />
-            </Grid>
-            {/* Column with description */}
-            <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  height: '100%',
-                }}
-              >
-                <Typography variant="h4" gutterBottom>
-                  Our Services
-                </Typography>
-                <Typography variant="body1">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquet magna nec ex interdum tempor. Donec vel nisl nec ligula ultricies consectetur.
-                </Typography>
-                <Typography variant="body1">
-                  Vivamus scelerisque, arcu et interdum feugiat, lacus nisi ullamcorper elit, nec ultricies justo eros et neque. Sed vehicula arcu vitae metus aliquam, vel semper felis mattis.
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={3} sx={{ marginTop: 4 }}>
-            {/* Column with description */}
-            <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  height: '100%',
-                }}
-              >
-                <Typography variant="h4" gutterBottom>
-                  Our Services
-                </Typography>
-                <Typography variant="body1">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquet magna nec ex interdum tempor. Donec vel nisl nec ligula ultricies consectetur.
-                </Typography>
-                <Typography variant="body1">
-                  Vivamus scelerisque, arcu et interdum feugiat, lacus nisi ullamcorper elit, nec ultricies justo eros et neque. Sed vehicula arcu vitae metus aliquam, vel semper felis mattis.
-                </Typography>
-              </Box>
-            </Grid>
-            
-            {/* Column with image */}
-            <Grid item xs={12} md={6}>
-              <img src="https://p7.hiclipart.com/preview/768/198/436/droid-razr-hd-iphone-telephone-clip-art-cell-phone-graphics.jpg" alt="Placeholder" style={{ width: '100%', height: 'auto' }} />
-            </Grid>
-          </Grid>
         </Container>
       </div>
+      {/* Two-column layout */}
+      <Container>
+        <Grid container spacing={3} sx={{ marginTop: 4 }}>
+          {/* Column with picture */}
+          <Grid item xs={12} md={6}>
+            <div>
+              <Lottie
+                options={{ animationData: nearparkinganimationData}}
+                height={300} // Adjusted height
+                width={300} // Adjusted width
+              />
+            </div>
+          </Grid>
+          {/* Column with description */}
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '100%',
+                padding: '20px',
+                backgroundColor: '#f5f5f5',
+                borderRadius: '8px',
+              }}
+            >
+              <Typography className='headings' variant="h4" gutterBottom>
+                Discover Amazing Parking Spaces
+              </Typography>
+              <Typography  className='subheading'variant="body1" paragraph>
+                Find parking anywhere, whether you're planning for now or for later. With our comprehensive database, you're never far from a convenient parking spot.
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Compare prices across different locations and pick the place that’s best for you. Our system provides real-time availability and pricing information.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3} sx={{ marginTop: 4 }}>
+          {/* Column with description */}
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '100%',
+                padding: '20px',
+                backgroundColor: '#f5f5f5',
+                borderRadius: '8px',
+              }}
+            >
+              <Typography className='headings' variant="h4" gutterBottom>
+                Book a Parking Spot
+              </Typography>
+              <Typography  className='subheading'variant="body1" paragraph>
+                Book a space in just a few easy clicks.
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Enjoy the peace of mind knowing you have a reserved spot waiting for you. No more driving around in circles looking for parking.
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Our smart parking system integrates with navigation apps to provide seamless directions right to your spot.
+              </Typography>
+            </Box>
+          </Grid>
+          {/* Column with image */}
+          <Grid item xs={12} md={6}>
+            <div>
+              <Lottie
+                options={defaultOptions(reservationanimationData)}
+                height={300} // Adjusted height
+                width={300} // Adjusted width
+              />
+            </div>
+          </Grid>
+        </Grid>
+        {/* Two-column layout */}
+        <Grid container spacing={3} sx={{ marginTop: 4 }}>
+          {/* Column with picture */}
+          <Grid item xs={12} md={6}>
+            <div>
+              <Lottie
+                options={defaultOptions(paymentanimationData)}
+                height={300} // Adjusted height
+                width={300} // Adjusted width
+              />
+            </div>
+          </Grid>
+          {/* Column with description */}
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '100%',
+                padding: '20px',
+                backgroundColor: '#f5f5f5',
+                borderRadius: '8px',
+              }}
+            >
+              <Typography className='headings' variant="h4" gutterBottom>
+                Make Payment
+              </Typography>
+              <Typography className='subheading' variant="body1" paragraph>
+                Save up to 50% off standard rates.
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Experience the convenience of cashless payments and exclusive discounts when you book through our platform.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 };
