@@ -5,6 +5,8 @@ import Lottie from 'react-lottie';
 import nearparkinganimationData from '../nearbyparking.json';
 import paymentanimationData from '../payment.json';
 import reservationanimationData from '../reservation.json';
+import { useNavigate } from 'react-router-dom';
+
 import "../App.css";
 
 const defaultOptions = (animationData) => ({
@@ -16,7 +18,13 @@ const defaultOptions = (animationData) => ({
   }
 });
 
+
+
 const LandingPage = () => {
+  const navigate = useNavigate();
+  const handleFindParking = () => {
+    navigate('/parkingmap');
+  }
   return (
     <div className='landingpage'>
       {/* Background video */}
@@ -61,7 +69,7 @@ const LandingPage = () => {
               fullWidth
               sx={{ maxWidth: 600, backgroundColor: 'white', borderRadius: 1, marginBottom: 2 }}
             />
-            <Button variant="contained" color="primary">
+            <Button variant="contained" onClick={handleFindParking} color="primary">
               Find Parking
             </Button>
           </Box>
