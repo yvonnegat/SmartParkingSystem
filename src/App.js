@@ -8,6 +8,7 @@ import Parkingmap from './components/parkingmap';
 import UserDashboard from './components/UserDashboard';
 import ReservationPage from './components/ReservationPage';
 import ParkingSpotDetails from './components/ParkingSpotDetails';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/dashboard/*" element={<UserDashboard />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path = '/details' element = {<ParkingSpotDetails/>} />
+        <Route path="/admin" element={<Dashboard />} />
         
       </Routes>
     </Router>

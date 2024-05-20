@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Drawer, CssBaseline, Toolbar, AppBar, IconButton } from '@mui/material';
+import { Box,Button ,Card , CardContent,CardMedia, Typography, Drawer, CssBaseline, Toolbar, AppBar, IconButton } from '@mui/material';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import RecentBookings from '../components/RecentBookings';
 import FavoriteSpots from '../components/FavoriteSpots';
@@ -66,14 +66,25 @@ const UserDashboard = () => {
 };
 
 const WelcomeMessage = () => (
-  <Box>
-    <Typography variant="h4" gutterBottom>
-      Welcome to Your Dashboard
-    </Typography>
-    <Typography variant="body1">
-      Use the navigation menu on the left to view your recent bookings, favorite spots, and account details.
-    </Typography>
-  </Box>
+  <Card variant="outlined">
+    <CardMedia
+      component="img"
+      height="140"
+      image="https://webbylab.com/wp-content/uploads/2023/03/1-1.png" // Replace this with your image URL
+      alt="Reservation"
+    />
+    <CardContent>
+      <Typography variant="h4" gutterBottom>
+        Need a Reservation
+      </Typography>
+      <Typography variant="body1">
+        It looks like you don't have any upcoming reservations. Book now to secure your spot!
+      </Typography>
+      <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
+        Book Now
+      </Button>
+    </CardContent>
+  </Card>
 );
 
 export default UserDashboard;
