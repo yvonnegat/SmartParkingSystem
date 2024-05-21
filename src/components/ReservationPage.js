@@ -4,6 +4,7 @@ import { Container, Box, Typography, TextField, Button, Grid, MenuItem } from '@
 import Payment from './Payment';
 import Summary from './summary';
 import TopBar from './TopBar';
+import Footer from './Footer';
 
 
 const ReservationPage = () => {
@@ -176,6 +177,8 @@ const ReservationPage = () => {
         </form>
       </Box>
     </Container>
+    <br/>
+    <Footer/>
 </div>
   );
 };

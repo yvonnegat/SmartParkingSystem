@@ -1,13 +1,14 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Container, Box, TextField, Button, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Typography, Container, Box, TextField, Button, Grid } from '@mui/material';
 import Lottie from 'react-lottie';
 import nearparkinganimationData from '../nearbyparking.json';
 import paymentanimationData from '../payment.json';
 import reservationanimationData from '../reservation.json';
 import { useNavigate } from 'react-router-dom';
+import Footer from './Footer';
 
 import "../App.css";
+import TopBar from './TopBar';
 
 const defaultOptions = (animationData) => ({
   loop: true,
@@ -26,6 +27,7 @@ const LandingPage = () => {
     navigate('/parkingmap');
   }
   return (
+    
     <div className='landingpage'>
       {/* Background video */}
       <video autoPlay loop muted className='background-video'>
@@ -34,15 +36,7 @@ const LandingPage = () => {
 
       {/* Content */}
       <div className='content'>
-        <AppBar position="static" className='appbar'>
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Park n Go
-            </Typography>
-            <Button color="inherit" component={Link} to="/signin">Sign In</Button>
-            <Button color="inherit" component={Link} to="/signup">Sign Up</Button>
-          </Toolbar>
-        </AppBar>
+        <TopBar/>
         <Container>
           <Box className='header'
             sx={{
@@ -56,8 +50,12 @@ const LandingPage = () => {
               padding: '0 20px',
             }}
           >
-            <Typography variant="h3" gutterBottom>
-              Welcome to Park n Go
+            <Typography variant="h3" gutterBottom sx={
+              {
+                color: 'cyan',
+              }
+            }>
+              Spot . Pay . Park
             </Typography>
             <Typography variant="h5" align="center" gutterBottom>
               Easily find and book parking spots in your city with our smart parking system.
@@ -190,6 +188,12 @@ const LandingPage = () => {
           </Grid>
         </Grid>
       </Container>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+    <Footer/>
+    
     </div>
   );
 };

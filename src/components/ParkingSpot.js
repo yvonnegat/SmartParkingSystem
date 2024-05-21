@@ -10,27 +10,28 @@ import "../App.css"
 const ParkingSpot = ({ spot }) => {
   const navigate = useNavigate();
 
-  const handleBookNow = () => {
-    // Logic to book the parking spot
-    alert(`Booking ${spot.name} now...`); // Example: Show an alert for demonstration
-    navigate('/reservation'); // Navigate to the reservation page
+  const handleCardClick = () => {
+    navigate(`/parking-spot/${spot.id}`);
   };
+
   return (
     <div className='parkingSpots'>
-        <Card variant="outlined" sx={{ minWidth: 275, marginBottom: 2 }}>
-          <CardContent>
-            <Typography variant="h5" component="div">
-              {spot.name}
-            </Typography>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Availability: {spot.availability}
-            </Typography>
-            <Typography variant="body2">
-              Price: ${spot.price}/hour
-            </Typography>
-            <Button variant="contained" onClick={handleBookNow}>Book Now</Button> {/* Book Now button */}
-          </CardContent>
-        </Card>
+      <Card variant="outlined" sx={{ minWidth: 275, marginBottom: 2 }} onClick={handleCardClick} style={{ cursor: 'pointer' }}>
+        <CardContent>
+          <Typography variant="h5" component="div">
+            {spot.name}
+          </Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            Availability: {spot.availability}
+          </Typography>
+          <Typography variant="body2">
+            Price: ${spot.price}/hour
+          </Typography>
+          <Button variant="contained" onClick={(e) => { e.stopPropagation(); navigate('/reservation'); }}>
+            Book Now
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 };

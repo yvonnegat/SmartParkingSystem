@@ -27,7 +27,7 @@ export default function Chart() {
   return (
     <React.Fragment>
       <Title>Today</Title>
-      <div style={{ width: '100%', flexGrow: 1, overflow: 'hidden' }}>
+      <div style={{ width: '100%', height: 300 }}> {/* Set a fixed height */}
         <LineChart
           dataset={data}
           margin={{

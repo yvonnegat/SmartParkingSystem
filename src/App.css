@@ -34,37 +34,45 @@
 .subheading{
   color: rgb(19, 20, 29);
 }
-.app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+/* App.css */
 
+/* App.css */
+
+/* Styles for the main content container */
 .main-content {
-  display: flex;
-  flex: 1;
-  width: 100%;
+  margin-top: 20px;
 }
 
-.parking-spots-container {
-  flex: 1;
-  
-}
-
-.parking-spot-list {
-  overflow:scroll;
-   height:350px;
-  width: 400px;
+/* Styles for the left-side container containing sort buttons and parking spot list */
+.left-side {
   padding: 2px;
+}
+
+/* Styles for the sort buttons */
+.sort-buttons {
+  margin-bottom: 20px;
   
 }
 
-/* Styling for MapContainer (adjust as needed) */
-.map-container {
-  width: calc(100% - 400px); /* Adjust the width based on the parking spot list width */
-  height: 300px ;
+/* Styles for the parking spot list */
+.parking-spot-list {
+  max-height: 300px;
+  overflow: scroll;
 }
-.sort-buttons{
-  display: flex;
-  justify-content:space-evenly;
+
+/* Media query for small screens */
+@media (max-width: 960px) {
+  /* Adjust styles for smaller screens */
+  .main-content {
+    margin-top: 10px;
+  }
+  .left-side {
+    padding: 5px;
+  }
+  .sort-buttons {
+    margin-bottom: 10px;
+  }
+  .parking-spot-list {
+    max-height: 300px;
+  }
 }

@@ -21,7 +21,10 @@ function App() {
         <Route path="/dashboard/*" element={<UserDashboard />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path = '/details' element = {<ParkingSpotDetails/>} />
-        <Route path="/admin" element={<Dashboard />} />
+        <Route path="/admin/*" element={<Dashboard />} />
+        <Route path="/parking-spot/:id" element={<ParkingSpotDetails />} />
+
+
         
       </Routes>
     </Router>

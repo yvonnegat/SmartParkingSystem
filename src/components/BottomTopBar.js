@@ -22,7 +22,7 @@ const BottomTopBar = () => {
                         }}
                     >
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div style={{ position: 'relative', maxWidth: 300 }}>
+                            <div style={{ position: 'center'}}>
                                 <TextField
                                     id="search-bar"
                                     label="Search for parking"

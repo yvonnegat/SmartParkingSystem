@@ -1,16 +1,24 @@
-import React from 'react';
-import { Box,Button ,Card , CardContent,CardMedia, Typography, Drawer, CssBaseline, Toolbar, AppBar, IconButton } from '@mui/material';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Box, Button, Card, CardContent, CardMedia, Typography, Drawer, CssBaseline, Toolbar, AppBar, IconButton, useMediaQuery } from '@mui/material';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import RecentBookings from '../components/RecentBookings';
 import FavoriteSpots from '../components/FavoriteSpots';
 import AccountDetails from '../components/AccountDetails';
 import VerticalNavBar from '../components/VerticalnavBar';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuIcon from '@mui/icons-material/Menu';
 import "../App.css";
 
 const drawerWidth = 240;
 
 const UserDashboard = () => {
+  const isMobile = useMediaQuery('(max-width:600px)');
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const toggleDrawer = () => {
+    setOpenDrawer(!openDrawer);
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -19,28 +27,44 @@ const UserDashboard = () => {
           <Typography variant="h6" noWrap>
             User Dashboard
           </Typography>
-          <div>
+          {isMobile && (
             <IconButton
               size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
+              edge="start"
               color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer}
+              sx={{ mr: 2 }}
             >
-              <AccountCircle />
+              <MenuIcon />
             </IconButton>
-          </div>
+          )}
+          {!isMobile && (
+            <div>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
       
       <Drawer
-        variant="permanent"
+        variant={isMobile ? "temporary" : "permanent"}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
         }}
+        open={openDrawer}
+        onClose={toggleDrawer}
       >
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
@@ -65,26 +89,51 @@ const UserDashboard = () => {
   );
 };
 
-const WelcomeMessage = () => (
-  <Card variant="outlined">
-    <CardMedia
-      component="img"
-      height="140"
-      image="https://webbylab.com/wp-content/uploads/2023/03/1-1.png" // Replace this with your image URL
-      alt="Reservation"
-    />
-    <CardContent>
-      <Typography variant="h4" gutterBottom>
-        Need a Reservation
-      </Typography>
-      <Typography variant="body1">
-        It looks like you don't have any upcoming reservations. Book now to secure your spot!
-      </Typography>
-      <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
-        Book Now
-      </Button>
-    </CardContent>
-  </Card>
-);
+const WelcomeMessage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Card variant="outlined">
+      <CardMedia
+        component="img"
+        height="140"
+        image="https://webbylab.com/wp-content/uploads/2023/03/1-1.png" // Replace this with your image URL
+        alt="Reservation"
+      />
+      <CardContent>
+        <Typography variant="h4" gutterBottom>
+          Need a Reservation?
+        </Typography>
+        <Typography variant="body1" paragraph>
+          It looks like you don't have any upcoming reservations. Book now to secure your spot!
+        </Typography>
+        
+        <Typography variant="body2" paragraph>
+          - Up to 50% off drive-up rates
+        </Typography>
+        <Typography   variant="body2" paragraph>
+          - Advanced booking
+        </Typography>
+        <Typography variant="body2" paragraph>
+          - Clear directions
+        </Typography>
+        <Typography variant="body2" paragraph>
+          - A mobile pass you can access on your phone
+        </Typography>
+        <Typography variant="body2" paragraph>
+          - An automated receipt
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ marginTop: '20px' }}
+          onClick={() => navigate('/parkingmap')} 
+        >
+          Book Now
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default UserDashboard;

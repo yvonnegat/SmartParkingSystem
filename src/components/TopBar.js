@@ -1,36 +1,37 @@
-// TopBar.js
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
+import logo from '../images/cypakLogo.png'; // Update this path to the actual path of your logo file
+import { Typography } from '@mui/material';
 
 const TopBar = () => {
   const navigate = useNavigate();
 
-  const HandleUser = () => {
-   
-    navigate('/dashboard'); // Navigate to the reservation page
+  const handleUser = () => {
+    navigate('/dashboard'); 
   };
+
   return (
-    <AppBar position="static">
-        <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Park n Go
-            </Typography>
-            <div>
-          
-            <IconButton
+    <AppBar position="static" >
+      <Toolbar>
+        <img src={logo} alt="Cypak" style={{ height: '60px', }} />
+        <Typography sx={{fontSize:'20px'}}>
+          Cypak
+        </Typography>
+        <div style={{ flexGrow: 1 }}></div>
+        <div>
+          <IconButton
             size="large"
             edge="end"
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             color="inherit"
-            onClick={HandleUser}
-             >
+            onClick={handleUser}
+          >
             <AccountCircle />
           </IconButton>
         </div>
