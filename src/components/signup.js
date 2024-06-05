@@ -1,4 +1,6 @@
+// components/SignUp.js
 import * as React from 'react';
+import {  Link as RouterLink, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -28,16 +30,35 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp({RouterLink}) {
-  const handleSubmit = (event) => {
+export default function SignUp() {
+  const Navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
+
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        email: data.get('email'),
+        password: data.get('password'),
+      }),
     });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result);
+      Navigate('/signin')
+      
+      // Handle successful registration, e.g., redirect to sign-in page
+    } else {
+      console.error('Registration failed');
+      // Handle registration failure, e.g., show error message
+    }
   };
 
   return (
@@ -135,7 +156,7 @@ export default function SignUp({RouterLink}) {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link component={RouterLink} to="/" variant="body2">
+                  <Link component={RouterLink} to="/signin" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignInSide from './components/sign-in-side';
@@ -20,12 +19,9 @@ function App() {
         <Route path="/parkingmap" element={<Parkingmap />} />
         <Route path="/dashboard/*" element={<UserDashboard />} />
         <Route path="/reservation" element={<ReservationPage />} />
-        <Route path = '/details' element = {<ParkingSpotDetails/>} />
+        <Route path="/details" element={<ParkingSpotDetails />} />
         <Route path="/admin/*" element={<Dashboard />} />
         <Route path="/parking-spot/:id" element={<ParkingSpotDetails />} />
-
-
-        
       </Routes>
     </Router>
   );

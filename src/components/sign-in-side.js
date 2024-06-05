@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,7 +18,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="">
+      <Link color="inherit" href="https://cypark.jhubafrica.com/">
         smart city project
       </Link>{' '}
       {new Date().getFullYear()}
@@ -26,18 +27,44 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
-export default function SignInSide({RouterLink}) {
-  const handleSubmit = (event) => {
+export default function SignInSide() {
+  const Navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const formData = new FormData(event.currentTarget);
+
+    const requestData = {
+      email: formData.get('email'),
+      password: formData.get('password'),
+    };
+
+    console.log('Request Data:', requestData);
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Login successful:', data);
+        // Redirect to dashboard after successful login
+        Navigate('/');
+      } else {
+        console.error('Login failed:', data);
+        // Handle login failure
+      }
+    } catch (error) {
+      console.error('Error during login:', error.message);
+      // Handle other errors, such as network issues
+    }
   };
 
   return (
@@ -119,7 +146,7 @@ export default function SignInSide({RouterLink}) {
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright smart city project />
+              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
