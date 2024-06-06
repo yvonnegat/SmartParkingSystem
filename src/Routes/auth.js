@@ -1,39 +1,26 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../Model/User');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const crypto = require('crypto');
-const mongoose = require('mongoose');
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo');
+// const crypto = require('crypto');
+// const mongoose = require('mongoose');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret';
 
-// Generate a secure secret key
-const secretKey = crypto.randomBytes(32).toString('hex');
 
-// Use the secret key in your session configuration
-const mongoUri = process.env.MONGODB_URI || 'your-default-mongo-uri';
-
-// Session configuration
-router.use(session({
-  secret: secretKey,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: mongoUri }),
-  cookie: { secure: false } // Set to true if using HTTPS
-}));
 
 // Register a new user
 router.post('/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    // Check if user already exists
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    // Create new user
     const hashedPassword = await bcrypt.hash(password, 10);
     user = new User({
       firstName,
@@ -56,27 +43,30 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if email and password are provided
     if (!email || !password) {
       return res.status(400).json({ msg: 'Email and password are required' });
     }
 
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: 'Invalid email or password' });
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: 'Invalid email or password' });
     }
 
-    // Store user ID in session
-    req.session.userId = user._id;
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ msg: 'Login successful', user });
+    // Set the token in an HTTP-only cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 3600000 // 1 hour
+    });
+
+    res.json({ msg: 'Login successful' });
   } catch (err) {
     console.error('Error logging in user:', err.message);
     res.status(500).send('Server error');
@@ -93,6 +83,34 @@ router.post('/logout', (req, res) => {
     res.clearCookie('connect.sid');
     res.json({ msg: 'Logout successful' });
   });
+});
+
+// Get current user data
+router.get('/current-user', async (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) {
+      return res.status(401).json({ msg: 'No token, authorization denied' });
+    }
+
+    jwt.verify(token, JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ msg: 'Token is not valid' });
+      }
+
+      const user = await User.findById(decoded.id);
+
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      res.json({ user });
+    });
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 module.exports = router;

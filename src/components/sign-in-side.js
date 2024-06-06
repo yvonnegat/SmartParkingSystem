@@ -56,6 +56,7 @@ export default function SignInSide() {
       if (response.ok) {
         console.log('Login successful:', data);
         // Redirect to dashboard after successful login
+        localStorage.setItem('token', data.token);
         Navigate('/');
       } else {
         console.error('Login failed:', data);

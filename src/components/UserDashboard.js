@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useContext} from 'react';
 import { Box, Button, Card, CardContent, CardMedia, Typography, Drawer, CssBaseline, Toolbar, AppBar, IconButton, useMediaQuery } from '@mui/material';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import RecentBookings from '../components/RecentBookings';
@@ -8,12 +8,15 @@ import VerticalNavBar from '../components/VerticalnavBar';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import "../App.css";
+import { AuthContext } from './AuthContext';
 
 const drawerWidth = 240;
 
 const UserDashboard = () => {
   const isMobile = useMediaQuery('(max-width:600px)');
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -40,18 +43,22 @@ const UserDashboard = () => {
             </IconButton>
           )}
           {!isMobile && (
-            <div>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
+            <Typography variant="h6" noWrap sx={{ ml: 'auto', mr: 2 }}>
+              Welcome, {user.firstName}
+            </Typography>
+          )}
+          {!isMobile && (
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              color="inherit"
+              onClick={() => navigate('/account')}
+            >
+              <AccountCircle />
+            </IconButton>
           )}
         </Toolbar>
       </AppBar>

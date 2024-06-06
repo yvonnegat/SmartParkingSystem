@@ -1,18 +1,17 @@
-require('dotenv').config({ path: './.env' }); // Load environment variables
+require('dotenv').config({ path: './.env' });
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const crypto = require('crypto');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-console.log('Loaded environment variables:', process.env);
-
 // Setup MongoDB URI
 const mongoUri = process.env.MONGODB_URI || 'your-default-mongo-uri';
-console.log('Mongo URI:', mongoUri);
 
 // Connect to MongoDB
 mongoose.connect(mongoUri, {
@@ -28,6 +27,11 @@ mongoose.connect(mongoUri, {
 
 // Middleware setup
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  credentials: true,
+}));
 
 // Generate a secure secret key
 const secretKey = crypto.randomBytes(32).toString('hex');

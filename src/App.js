@@ -8,9 +8,11 @@ import UserDashboard from './components/UserDashboard';
 import ReservationPage from './components/ReservationPage';
 import ParkingSpotDetails from './components/ParkingSpotDetails';
 import Dashboard from './components/Dashboard';
+import { AuthProvider } from './components/AuthContext';
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Routes>
         <Route path="/signin" element={<SignInSide />} />
@@ -24,6 +26,7 @@ function App() {
         <Route path="/parking-spot/:id" element={<ParkingSpotDetails />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 
