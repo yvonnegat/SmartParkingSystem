@@ -25,6 +25,12 @@ mongoose.connect(mongoUri, {
   console.error('Error connecting to MongoDB Atlas:', err.message);
 });
 
+const corsOptions = {
+  origin: 'http://localhost:3000', // Frontend URL
+  credentials: true, // Allow credentials (cookies)
+};
+
+app.use(cors(corsOptions));
 // Middleware setup
 app.use(express.json());
 app.use(cookieParser());
@@ -51,7 +57,7 @@ app.get('/', (req, res) => {
 });
 
 // Import and use auth routes
-const authRoutes = require('../Routes/auth');
+const authRoutes = require('../Routes/auth'); // Adjust the path as necessary
 app.use('/api/auth', authRoutes);
 
 // Error handling middleware

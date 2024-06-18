@@ -12,6 +12,8 @@ import Footer from './Footer';
 
 const Parkingmap = () => {
   const [parkingSpots, setParkingSpots] = useState([]);
+  const [routeStart, setRouteStart] = useState(null);
+  const [routeEnd, setRouteEnd] = useState(null);
 
   useEffect(() => {
     const fetchParkingSpots = async () => {
@@ -30,9 +32,9 @@ const Parkingmap = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         const data = [
-          { id: 1, name: 'Parking Spot 1', availability: 'Available', price: 10 },
-          { id: 2, name: 'Parking Spot 2', availability: 'Unavailable', price: 15 },
-          { id: 3, name: 'Parking Spot 3', availability: 'Available', price: 12 },
+          { id: 1, name: 'Parking Spot 1', availability: 'Available', price: 10, latitude: -1.286389, longitude: 36.817223 },
+          { id: 2, name: 'Parking Spot 2', availability: 'Unavailable', price: 15, latitude: -1.28645, longitude: 36.81728 },
+          { id: 3, name: 'Parking Spot 3', availability: 'Available', price: 12, latitude: -1.287, longitude: 36.818 },
         ];
         resolve(data);
       }, 1000);
@@ -45,6 +47,14 @@ const Parkingmap = () => {
 
   const handleSortByNearest = () => {
     // Logic to sort parking spots by nearest
+  };
+
+  const handleSetStart = (latitude, longitude) => {
+    setRouteStart([latitude, longitude]);
+  };
+
+  const handleSetEnd = (latitude, longitude) => {
+    setRouteEnd([latitude, longitude]);
   };
 
   return (
@@ -60,12 +70,21 @@ const Parkingmap = () => {
             </Box>
             <Box className="parking-spot-list">
               {parkingSpots.map(spot => (
-                <ParkingSpot key={spot.id} spot={spot} />
+                <ParkingSpot 
+                  key={spot.id} 
+                  spot={spot} 
+                  setStart={handleSetStart} 
+                  setEnd={handleSetEnd} 
+                />
               ))}
             </Box>
           </Grid>
           <Grid item xs={12} md={8}>
-            <MapContainer parkingSpots={parkingSpots} />
+            <MapContainer 
+              parkingSpots={parkingSpots} 
+              routeStart={routeStart} 
+              routeEnd={routeEnd} 
+            />
           </Grid>
         </Grid>
       </Container>

@@ -1,15 +1,25 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../Model/User');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo');
-// const crypto = require('crypto');
-// const mongoose = require('mongoose');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret'; // Ensure consistent use of JWT_SECRET
 
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization;
 
+  if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+  }
+
+  jwt.verify(token.split(' ')[1], JWT_SECRET, (err, decoded) => { // Extract the token from the Authorization header
+      if (err) {
+          return res.status(403).json({ message: 'Failed to authenticate token' });
+      }
+      req.user = decoded;
+      next();
+  });
+}
 
 // Register a new user
 router.post('/register', async (req, res) => {
@@ -43,20 +53,24 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Check if email and password are provided
     if (!email || !password) {
       return res.status(400).json({ msg: 'Email and password are required' });
     }
 
+    // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: 'Invalid email or password' });
     }
 
+    // Compare the provided password with the hashed password stored in the database
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: 'Invalid email or password' });
     }
 
+    // Generate JWT token
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
     // Set the token in an HTTP-only cookie
@@ -66,6 +80,7 @@ router.post('/login', async (req, res) => {
       maxAge: 3600000 // 1 hour
     });
 
+    // Send response indicating successful login
     res.json({ msg: 'Login successful' });
   } catch (err) {
     console.error('Error logging in user:', err.message);
@@ -110,6 +125,29 @@ router.get('/current-user', async (req, res) => {
   } catch (error) {
     console.error('Error fetching current user:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Update user information
+router.put('/update', verifyToken, async (req, res) => {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    const updateData = { firstName, lastName, email };
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateData.password = hashedPassword;
+    }
+
+    const user = await User.findByIdAndUpdate(req.user.id, updateData, { new: true });
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    res.json({ msg: 'Account updated successfully', user });
+  } catch (err) {
+    console.error('Error updating user:', err.message);
+    res.status(500).send('Server error');
   }
 });
 

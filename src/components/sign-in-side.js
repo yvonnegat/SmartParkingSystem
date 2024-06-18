@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -30,18 +30,17 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const Navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-
+  
     const requestData = {
       email: formData.get('email'),
       password: formData.get('password'),
     };
-
+  
     console.log('Request Data:', requestData);
-
+  
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -50,14 +49,14 @@ export default function SignInSide() {
         },
         body: JSON.stringify(requestData),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         console.log('Login successful:', data);
         // Redirect to dashboard after successful login
         localStorage.setItem('token', data.token);
-        Navigate('/');
+        window.location.href = '/'; // Redirect to the homepage
       } else {
         console.error('Login failed:', data);
         // Handle login failure

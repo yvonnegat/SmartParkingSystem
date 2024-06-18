@@ -42,11 +42,12 @@ const UserDashboard = () => {
               <MenuIcon />
             </IconButton>
           )}
-          {!isMobile && (
-            <Typography variant="h6" noWrap sx={{ ml: 'auto', mr: 2 }}>
-              Welcome, {user.firstName}
-            </Typography>
-          )}
+          {!isMobile && user && (
+              <Typography variant="h6" noWrap sx={{ ml: 'auto', mr: 2 }}>
+                Welcome, {user.firstName}
+              </Typography>
+            )}
+
           {!isMobile && (
             <IconButton
               size="large"

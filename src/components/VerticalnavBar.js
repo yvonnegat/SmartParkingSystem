@@ -22,6 +22,7 @@ const VerticalNavBar = () => {
         <ListItemIcon><AccountCircleIcon /></ListItemIcon>
         <ListItemText primary="Account Details" />
       </ListItem>
+      
     </List>
   );
 };

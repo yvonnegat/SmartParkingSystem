@@ -117,6 +117,7 @@ const ReservationPage = () => {
               >
                 <MenuItem value="creditCard">Credit Card</MenuItem>
                 <MenuItem value="paypal">PayPal</MenuItem>
+                <MenuItem value="mpesa">mpesa</MenuItem>
               </TextField>
             </Grid>
             
